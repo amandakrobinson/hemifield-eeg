@@ -1,0 +1,21 @@
+{
+	"eventnumber":"the presentation number",
+	"condition":"1, 2 or 3",
+	"conditionlabel":"labels for condition",
+	"istarget":"C,L,R represent central, left or right target, 0 means no target", 
+	"presentationnumber":"presentation number within the stream", 
+	"sequencenumber":"the sequence number (0-11)",
+	"stimC":"stimulus number of central image (-1 is no image)", 
+	"stimL":"stimulus number of left image (-1 is no image)", 
+	"stimR":"stimulus number of right image (-1 is no image)", 
+	"streamnumber":"unique stream number (0-47)", 
+	"stimnameL":"name of stimulus on left (or no image)", 
+	"stimnameR":"name of stimulus on right (or no image)", 
+	"stimnameC":"name of stimulus central (or no image)", 
+	"response":"0 when no response, or 1 for response", 
+	"rt":"time of response, but this isn't accurate", 
+	"correct":"correct response to a target (1) or not (0)", 
+	"time_stimon":"stimulus onset time (s), relative to experiment start", 
+	"time_stimoff":"stimulus offset time (s), relative to experiment start"
+	"stimdur":"duration of stimulus in seconds"
+}
