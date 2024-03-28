@@ -12,8 +12,8 @@ plotmodels = 1;
 
 %% get behavioural models
 
-conceptsim = load('similarity_data/results/stats_concept_similarity.mat');
-imagesim = load('similarity_data/results/stats_image_similarity.mat');
+conceptsim = load('./results/stats_concept_similarity.mat');
+imagesim = load('./results/stats_image_similarity.mat');
 
 mask = ones(size(conceptsim.RDMmean));
 mask = tril(mask,-1);
@@ -40,7 +40,7 @@ end
 
 %% stack results from image decoding
 fprintf('Loading data\n')
-hfiles = dir('results/sub-*_half_decoding.mat'); % two halves
+hfiles = dir('./results/sub-*_half_decoding.mat'); % two halves
 names = {hfiles(:).name};
 res_cell={};
 cc = clock();mm='';
@@ -143,7 +143,7 @@ for c = 1:length(conds)
             stats.(conds{c}).(clust{cl}).(vfs{v}) = s;
             fprintf('BFs done for %s, %s, %s\n',conds{c},clust{cl},vfs{v})
             fprintf('Saving\n')
-            save('results/stats_behavcorr_byhalf.mat','stats','timevect', '-v7.3');
+            save('./results/stats_behavcorr_byhalf.mat','stats','timevect', '-v7.3');
         end
     end
 
@@ -193,11 +193,34 @@ for c = 1:length(conds)
         s.moddiff.bf = bayesfactor_R_wrapper(s.mu_all,...
             'returnindex',2,'verbose',false,'args','mu=0,rscale="medium",nullInterval=c(-0.5,0.5)');
 
+        %% now do difference between RH and LH
+        mu_all = x2-x1;
+        s.rldiff.mu = mean(mu_all,3);
+        s.rldiff.n = size(mu_all,3);
+        s.rldiff.se = std(mu_all,[],3)./sqrt(s.n);
+       % calculate bayesfactors
+        s.rldiff.bf = zeros(length(timevect),length(modelnames));
+        s.rldiff.onset = NaN(2,1);
+        s.rldiff.peak = NaN(2,1);
+        for m = 1:length(modelnames)
+            s.rldiff.bf(:,m) = bayesfactor_R_wrapper(squeeze(mu_all(:,m,:)),...
+                'returnindex',2,'verbose',false,'args','mu=0,rscale="medium",nullInterval=c(-0.5,0.5)');
+
+            % group mean onset & peak
+            [mo,ot] = max(movmean(s.rldiff.bf(:,m)>10,[0 9])==1); % onset 10 consecutive tp BF>10
+            [~,peak] = max(s.rldiff.mu(:,m)); % peak
+            ot(mo==0) = []; % remove "onsets" with max=0
+            if ~isempty(ot)
+                s.rldiff.onset(m) = timevect(ot);
+            end
+            s.rldiff.peak(m) = timevect(peak);
+        end
+
         %% collate and save
         stats.(conds{c}).(ci{co}) = s;
         fprintf('BFs done for %s, %s\n',conds{c},ci{co})
         fprintf('Saving\n')
-        save('results/stats_neuralbehavcorr.mat','stats','timevect', '-v7.3');
+        save('./results/stats_neuralbehavcorr.mat','stats','timevect', '-v7.3');
     end
 end
 

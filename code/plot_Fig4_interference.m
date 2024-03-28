@@ -3,7 +3,6 @@ function plot_Fig4_interference()
 %% plot Figure 4: decoding of single peripheral image versus dual peripheral images
 
 %% stuff for plotting
-addpath('~/Dropbox/MATLAB/Colormaps/Colormaps (5)/Colormaps')
 colormap viridis
 cmap = tab10(3);
 

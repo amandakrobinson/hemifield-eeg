@@ -8,9 +8,6 @@ function plot_Fig2and3_decoding_peripheral()
 % figure 3 = dual peripheral
 
 %% stuff for plotting
-addpath('~/Dropbox/MATLAB/Colormaps/Colormaps (5)/Colormaps')
-addpath('~/Dropbox/MATLAB/altmany-export_fig')
-colormap viridis
 co3=[];
 cmap = viridis(3);
 cmap(3,:) = [0 0 0];
@@ -85,18 +82,18 @@ for cond = 1:length(conds) % peripheral, multi peripheral
             fill([timevect fliplr(timevect)],[mu-se fliplr(mu+se)],col,'FaceAlpha',0.2,'LineStyle','none','HandleVisibility','off')
             p(v) = plot(timevect,mu,'Color',col,'LineWidth',2);
             
-            % plot onset and peak CIs
-            yval = chance(cl)-.01-contraipsi(cl,v)*.002;
-            if ~isempty(dat.onset)
-                plot(dat.onset,yval,'.','Color',col,'MarkerSize',12,'HandleVisibility','off')
-            end
-            plot(dat.peak,yval,'-s','Color',col,'MarkerSize',12,'HandleVisibility','off')
-
-            if contraipsi(cl,v) == 1 % top onset point
-                text(dat.onset-90,yval-.002,'Onset')
-            else
-                text(dat.peak+30,yval+.002,'Peak')
-            end
+            % % plot onset and peak CIs
+            % yval = chance(cl)-.01-contraipsi(cl,v)*.002;
+            % if ~isempty(dat.onset)
+            %     plot(dat.onset,yval,'.','Color',col,'MarkerSize',12,'HandleVisibility','off')
+            % end
+            % plot(dat.peak,yval,'-s','Color',col,'MarkerSize',12,'HandleVisibility','off')
+            % 
+            % if contraipsi(cl,v) == 1 % top onset point
+            %     text(dat.onset-90,yval-.002,'Onset')
+            % else
+            %     text(dat.peak+30,yval+.002,'Peak')
+            % end
 %             if ~isempty(dat.onsetci)
 %                 line(dat.onsetci+[-.5 .5],[yval yval],'Color',co(t,:),'LineWidth',2)
 %             end
@@ -216,5 +213,7 @@ for cond = 1:length(conds) % peripheral, multi peripheral
     im=imread([fn '.png']);
     [i,j]=find(mean(im,3)<255);margin=2;
     imwrite(im(min(i-margin):max(i+margin),min(j-margin):max(j+margin),:),[fn '.png'],'png');
+end
+
 end
 

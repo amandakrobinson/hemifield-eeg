@@ -82,26 +82,6 @@ for cond = 1:length(conds) % peripheral, multi peripheral
                 fill([timevect fliplr(timevect)],[mu-se fliplr(mu+se)],col,'FaceAlpha',0.2,'LineStyle','none','HandleVisibility','off')
                 p(v) = plot(timevect,mu,'Color',col,'LineWidth',2);
 
-                % plot onset and peak CIs
-                yval = chance(cl)-.01-contraipsi(cl,v)*.002;
-                if ~isempty(dat.onset)
-                    plot(dat.onset,yval,'.','Color',col,'MarkerSize',12,'HandleVisibility','off')
-                end
-                plot(dat.peak,yval,'-s','Color',col,'MarkerSize',12,'HandleVisibility','off')
-
-                if contraipsi(cl,v) == 1 % top onset point
-                    if ~isempty(dat.onset)
-                        text(dat.onset-90,yval-.002,'Onset')
-                    end
-                else
-                    text(dat.peak+30,yval+.002,'Peak')
-                end
-                %             if ~isempty(dat.onsetci)
-                %                 line(dat.onsetci+[-.5 .5],[yval yval],'Color',co(t,:),'LineWidth',2)
-                %             end
-                %             line(dat.peakci+[-.5 .5],[yval yval],'Color',co(t,:),'LineWidth',2)
-                drawnow
-
             end
 
             ylim(yplotlim(cl,:));

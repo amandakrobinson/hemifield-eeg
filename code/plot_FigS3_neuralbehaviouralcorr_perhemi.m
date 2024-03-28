@@ -13,8 +13,8 @@ fig=figure(1);clf;
 fig.Position=[1 1 2000 1500];
 fig.Resize = 'off';
     
-cmap = tab10(4);
-cmap([2 3],:)=[];
+cmap = tab10(6);
+cmap(1:3,:)=[];
 
 clusts = {'L_elecs','R_elecs','L_elecs','R_elecs'}; % order for plotting
 vfs = {'RVF' 'LVF' 'LVF' 'RVF'}; % order for plotting
@@ -44,7 +44,8 @@ for plotnr = 1:length(clusts)
         plot(timevect,mu,'Color',col,'Linewidth',2)
     end
     xlim([min(timevect) max(timevect)+1])
-    legend({'Image task' 'Concept task'},'Box','off')
+    % legend({'Image task' 'Concept task'},'Box','off')
+    legend(stats.models.names)
     % title('Left hemisphere')
     ylim(lims)
     ylabel('Neural-behaviour correlation')
